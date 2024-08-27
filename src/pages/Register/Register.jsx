@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { Formik } from "formik";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import fileUpload from "../../services/fileUpload";
+import { createUser } from "../../services/userServices";
 
 const passwordRegex =
   /^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$/;
 
 const Register = () => {
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState({
     password: false,
     repeatPassword: false,
@@ -70,6 +72,14 @@ const Register = () => {
           if (profileImage) {
             values.avatar = profileImage;
             console.table(values);
+            const newUser = await createUser(values);
+            console.table(newUser);
+            if (newUser) {
+              alert("Su cuenta ha sido creada exitosamente");
+              navigate('/login');
+            } else {
+              alert("Ha ocurrido un error en la creación de su cuenta");
+            }
           } else {
             alert("Ha ocurrido un error en la carga de la imagen");
           }

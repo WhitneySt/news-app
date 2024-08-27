@@ -3,10 +3,13 @@ import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { login } from "../../services/userServices";
+import useAppContext from "../../hooks/useAppContext";
 
 const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const { userDispatch } = useAppContext();
 
   const formik = useFormik({
     initialValues: {
@@ -19,8 +22,22 @@ const Login = () => {
         .required("Este campo es requerido"),
       password: Yup.string().required("Este campo es requerido"),
     }),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.table(values);
+      const loggedUser = await login(values);
+      console.table(loggedUser);
+      if (loggedUser) {
+        userDispatch({
+          type: "LOGIN",
+          payload: loggedUser,
+        });
+        alert(`${loggedUser.name}, te damos la bienvenida`);
+        navigate("/news");
+      } else {
+        alert(
+          "Ha ocurrido un error en el inicio de sesión, por favor verifique sus credenciales"
+        );
+      }
     },
   });
 
