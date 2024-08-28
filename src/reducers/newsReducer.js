@@ -1,15 +1,30 @@
 const newsReducer = (state, action) => {
   switch (action.type) {
+    case "FETCH_NEWS_REQUEST":
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case "FETCH_NEWS_FAILURE":
+      return {
+        ...state,
+        error: action.payload,
+      };
     case "FETCH_NEWS":
       return {
         ...state,
         news: action.payload,
+        loading: false,
+        error: null,
       };
     case "FILTER_NEWS":
       return {
         ...state,
         news: action.payload.news,
         statusFilter: action.payload.statusFilter,
+        loading: false,
+        error: null,
       };
     case "SEARCH_NEWS": {
       const filteredNews = state.news.filter((item) =>
@@ -19,6 +34,8 @@ const newsReducer = (state, action) => {
         ...state,
         news: [...filteredNews],
         statusFilter: action.payload.statusFilter,
+        loading: false,
+        error: null,
       };
     }
     case "EDIT_NEWS": {
@@ -44,6 +61,8 @@ const newsReducer = (state, action) => {
       return {
         ...state,
         news: [...mappedNews],
+        loading: false,
+        error: null,
       };
     }
     case "DELETE_NEWS": {
@@ -53,12 +72,16 @@ const newsReducer = (state, action) => {
       return {
         ...state,
         news: [...filteredNews],
+        loading: false,
+        error: null,
       };
     }
     case "ADD_NEWS":
       return {
         ...state,
         news: [...state.news, action.payload],
+        loading: false,
+        error: null,
       };
     case "LIKES":
       return state;

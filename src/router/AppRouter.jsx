@@ -10,6 +10,7 @@ import News from "../pages/News/News";
 import NewsDetails from "../pages/NewsDetails/NewsDetails";
 import AdminPanel from "../pages/AdminPanel/AdminPanel";
 import useAppContext from "../hooks/useAppContext";
+import AddNews from "../pages/AddNews/AddNews";
 
 const AppRouter = () => {
   const { user } = useAppContext();
@@ -27,6 +28,7 @@ const AppRouter = () => {
             <Route path="news" element={<News />}>
               <Route path=":newsId" element={<NewsDetails />} />
             </Route>
+            <Route path="addNews" element={<AddNews/> } />
             <Route path="admin" element={<AdminPanel />} />
           </Route>
         </Route>

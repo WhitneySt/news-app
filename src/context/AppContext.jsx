@@ -13,11 +13,13 @@ const AppContextProvider = ({ children }) => {
     user: null,
     isAuth: true,
   });
-    const [news, newsDispatch] = useReducer(newsReducer, {
-      news: [],
-      statusFilter: false,
-    });
-    
+  const [news, newsDispatch] = useReducer(newsReducer, {
+    news: [],
+    statusFilter: false,
+    loading: false,
+    error: null,
+  });
+
   const globalState = {
     user,
     userDispatch,
